@@ -3,23 +3,14 @@ var router = express.Router();
 var monk = require('monk');;
 
 
-//mongo connection troubleshooting
-var mongodb = require('mongodb');
-// var uri = 'mongodb://heroku_20vql2mf:5ji9506agic7oje4589ddl5mgf@ds139904.mlab.com:39904/heroku_20vql2mf/collections';
-
-
-//
-
-
 /* GET home page. */
 router.get('/', function(req, res) {
-  console.log("route is hit");
     var db = req.db;
+    console.log("route is hit", db);
     var collection = db.get('chortles');
     collection.find({},function(e,docs){
         res.json(docs);
     });
-  console.log('route end');
 });
 
 router.get('/newchortle', function(req, res) {

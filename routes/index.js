@@ -4,11 +4,12 @@ var router = express.Router();
 /* GET home page. */
 
 router.get('/', function(req, res) {
-    var db = req.db;
-    var collection = db.get('chortles');
-    collection.find({},{},function(e,docs){
-        res.json(docs);
-    });
+  res.send("working");
+    // var db = req.db;
+    // var collection = db.get('chortles');
+    // collection.find({},{},function(e,docs){
+    //     res.json(docs);
+    // });
 });
 
 router.get('/newchortle', function(req, res) {

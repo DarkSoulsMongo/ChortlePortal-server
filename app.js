@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var monk = require('monk');
-var dotenv = require('dotenv')
+var dotenv = require('dotenv');
+var cors = require('cors');
 // var db = monk('localhost:27017/chortledb');
 var db = process.env.MONGODB_URI || 'localhost:27017/chortledb';
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use(function(req,res,next){
     req.db = monk(db);

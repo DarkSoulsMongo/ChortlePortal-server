@@ -6,7 +6,6 @@ var monk = require('monk');;
 /* GET home page. */
 router.get('/', function(req, res) {
     var db = req.db;
-    console.log("route is hit", db);
     var collection = db.get('chortles');
     collection.find({},function(e,docs){
         res.json(docs);
@@ -19,25 +18,23 @@ router.get('/newchortle', function(req, res) {
 
 /* POST to Add Chortle Service */
 router.post('/addchortle', function(req, res) {
-
     // Set our internal DB variable
     var db = req.db;
-
     // Get our form values. These rely on the "name" attributes
-    var userName = req.body.username;
-    var userImage = req.body.userimage;
-    var userMessage = req.body.usermessage;
-    var userLocation = req.body.userlocation
-
+    var userName = req.body.userName;
+    var userComment = req.body.userComment;
+    var userImage = req.body.userImage;
+    var userLongitude = req.body.userlongitude;
+    var userLatitude = req.body.userlatitude;
     // Set our collection
     var collection = db.get('chortledb');
-
     // Submit to the DB
     collection.insert({
         "username" : userName,
-        "image" : image,
-        "message" : message,
-        "location" : location
+        "comment" : userComment,
+        "image" : userImage,
+        "longitude" : userLongitude,
+        "latitude" : userLatitude
     }, function (err, doc) {
         if (err) {
             // If it failed, return error
@@ -45,7 +42,8 @@ router.post('/addchortle', function(req, res) {
         }
         else {
             // And forward to success page
-            res.redirect("chortles");
+            res.send("success");
+            // res.redirect("chortles");
         }
     });
 });

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var monk = require('monk');;
+var monk = require('monk');
 
 
 /* GET home page. */
@@ -18,16 +18,14 @@ router.get('/newchortle', function(req, res) {
 
 /* POST to Add Chortle Service */
 router.post('/addchortle', function(req, res) {
-    // Set our internal DB variable
     var db = req.db;
+    var collection = db.get('chortles');
     // Get our form values. These rely on the "name" attributes
     var userName = req.body.userName;
     var userComment = req.body.userComment;
     var userImage = req.body.userImage;
     var userLongitude = req.body.userlongitude;
     var userLatitude = req.body.userlatitude;
-    // Set our collection
-    var collection = db.get('chortledb');
     // Submit to the DB
     collection.insert({
         "username" : userName,
@@ -35,14 +33,15 @@ router.post('/addchortle', function(req, res) {
         "image" : userImage,
         "longitude" : userLongitude,
         "latitude" : userLatitude
-    }, function (err, doc) {
+    },
+    function (err, doc) {
         if (err) {
             // If it failed, return error
-            res.send("There was a problem adding the information to the database.");
+            res.send("error, broski");
         }
         else {
             // And forward to success page
-            res.send("success");
+            res.send("success, broski");
             // res.redirect("chortles");
         }
     });

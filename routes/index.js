@@ -28,13 +28,13 @@ router.post('/addchortle', function(req, res) {
     var userLatitude = req.body.userlatitude;
     // Submit to the DB
     collection.insert({
-        "username" : userName,
-        "comment" : userComment,
-        "image" : userImage,
-        "longitude" : userLongitude,
-        "latitude" : userLatitude
+        "username" : "fucko",//userName,
+        "comment" : "hey fucko",//userComment,
+        "image" : "no way fucko",//userImage,
+        "longitude" : 90,//userLongitude,
+        "latitude" : 90//userLatitude
     },
-    function (err, doc) {
+      function (err, doc) {
         if (err) {
             // If it failed, return error
             res.send("error, broski");
@@ -42,7 +42,7 @@ router.post('/addchortle', function(req, res) {
         else {
             // And forward to success page
             res.send("success, broski");
-            // res.redirect("chortles");
+            res.redirect("chortles");
         }
     });
 });

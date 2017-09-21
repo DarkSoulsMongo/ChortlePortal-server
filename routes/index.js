@@ -16,18 +16,17 @@ router.get('/newchortle', function(req, res) {
     res.render('newchortle', { title: 'Add New Chortle' });
 });
 
-/* POST to Add Chortle Service */
+/* POST to Add Chortle */
 router.post('/addchortle', function(req, res) {
     var db = req.db;
     var collection = db.get('chortles');
     // Submit to the DB
     collection.insert({
-        "id" : "",
-        "username" : "" + req.body.userName,
-        "comment" : "" + req.body.userComment,
-        "image" : "" + req.body.userImage,
-        "longitude" : req.body.userLongitude,
-        "latitude" : req.body.userLatitude
+        username : req.body.userName,
+        comment : req.body.userComment,
+        image : req.body.userImage,
+        longitude : req.body.userLongitude,
+        latitude : req.body.userLatitude
     },
       function (err, doc) {
         if (err) {
@@ -37,7 +36,6 @@ router.post('/addchortle', function(req, res) {
         else {
             // And forward to success page
             res.send("success, broski");
-            res.redirect("chortles");
         }
     });
 });

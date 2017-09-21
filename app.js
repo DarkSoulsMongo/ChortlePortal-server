@@ -8,6 +8,7 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var dotenv = require('dotenv');
 var cors = require('cors');
+var uuid4 = require('uuid/v4');
 // var db = monk('localhost:27017/chortledb');
 var db = process.env.MONGODB_URI || 'mongodb://heroku_20vql2mf:5ji9506agic7oje4589ddl5mgf@ds139904.mlab.com:39904/heroku_20vql2mf';
 

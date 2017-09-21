@@ -22,11 +22,12 @@ router.post('/addchortle', function(req, res) {
     var collection = db.get('chortles');
     // Submit to the DB
     collection.insert({
+        "id" : "",
         "username" : "" + req.body.userName,
         "comment" : "" + req.body.userComment,
         "image" : "" + req.body.userImage,
-        "longitude" : "" + req.body.userLongitude,
-        "latitude" : "" + req.body.userLatitude
+        "longitude" : req.body.userLongitude,
+        "latitude" : req.body.userLatitude
     },
       function (err, doc) {
         if (err) {

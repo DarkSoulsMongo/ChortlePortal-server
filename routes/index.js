@@ -48,7 +48,7 @@ router.post('/addchortle', upload.single('image'), function(req, res, next) {
         collection.insert({
             username : req.body.userName,
             comment : req.body.userComment,
-            image : process.env.S3_ROOT + id,
+            image : "https://s3.us-east-2.amazonaws.com/chortledemobucket/" + id,
             longitude : req.body.userLongitude,
             latitude : req.body.userLatitude
         })

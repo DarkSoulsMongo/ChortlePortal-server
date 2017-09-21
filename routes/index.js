@@ -30,8 +30,8 @@ router.post('/addchortle', upload.single('image'), function(req, res, next) {
     let db = req.db;
     //console.log('rabbit');
     let id = uuid();
-    console.log(id);
-    console.log('here?');
+    // console.log(id);
+    // console.log('here?');
     let params = {
       Bucket: process.env.S3_BUCKET,
       Key: id,
@@ -40,15 +40,16 @@ router.post('/addchortle', upload.single('image'), function(req, res, next) {
     console.log(params)
     s3.putObject(params, err => {
       if (err) {
-        console.log("err", err);
+        // console.log("err", err);
         next(err)
       } else {
 
         let collection = db.get('chortles');
+        let root = 'https://s3.us-east-2.amazonaws.com/chortledemobucket/';
         collection.insert({
             username : req.body.userName,
             comment : req.body.userComment,
-            image : "https://s3.us-east-2.amazonaws.com/chortledemobucket/" + id,
+            image : root + id,
             longitude : req.body.userLongitude,
             latitude : req.body.userLatitude
         })
@@ -56,7 +57,7 @@ router.post('/addchortle', upload.single('image'), function(req, res, next) {
           res.json(`{"success": true}`)
         })
         .catch(function(err){
-          console.log('err', err);
+          // console.log('err', err);
         })
 
       }

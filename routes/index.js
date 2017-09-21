@@ -1,16 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var monk = require('monk');
-var uuidv4 = require('uuid/v4');
+var uuid = require('uuid/v4');
 var csv = require('fast-csv');
 var csvparse = require('csv-parser');
 var AWS = require('aws-sdk');
-const s3 = new AWS.S3();
 const upload  = require('multer')();
 
 require('dotenv').config();
 
 AWS.config.update({ accessKeyId: process.env.S3_KEY, secretAccessKey: process.env.S3_SECRET });
+const s3 = new AWS.S3();
 
 
 /* GET home page. */
@@ -23,26 +23,45 @@ router.get('/', function(req, res) {
 });
 
 /* POST to Add Chortle */
-router.post('/addchortle', upload.single('image'), function(req, res) {
+router.post('/addchortle', upload.single('image'), function(req, res, next) {
+  //console.log('hitting route');
+  //console.log(req.body);
+  //console.log(req.file);
     let db = req.db;
+    //console.log('rabbit');
     let id = uuid();
-    let collection = db.get('chortles');
+    console.log(id);
+    console.log('here?');
     let params = {
       Bucket: process.env.S3_BUCKET,
       Key: id,
-      Body: req.body.userImage
+      Body: new Buffer(req.file.buffer)
     }
-
+    console.log(params)
     s3.putObject(params, err => {
       if (err) {
+        console.log("err", err);
         next(err)
       } else {
-        res.json(`{"success": true}`)
+
+        let collection = db.get('chortles');
+        collection.insert({
+            username : req.body.userName,
+            comment : req.body.userComment,
+            image : id,
+            longitude : req.body.userLongitude,
+            latitude : req.body.userLatitude
+        })
+        .then(function(){
+          res.json(`{"success": true}`)
+        })
+        .catch(function(err){
+          console.log('err', err);
+        })
+
       }
     })
-    .then(response => {
-      console.log(response);
-    })
+// in mongo, check that its in s3
     // Submit to the DB
     // collection.insert({
     //     username : req.body.userName,
@@ -55,7 +74,7 @@ router.post('/addchortle', upload.single('image'), function(req, res) {
 
 
 
-      var s3Stream = s3.getObject(params).createReadStream()
+      // var s3Stream = s3.getObject(params).createReadStream()
 
 });
 
